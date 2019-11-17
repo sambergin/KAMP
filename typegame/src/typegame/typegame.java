@@ -2,6 +2,8 @@ package typegame;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -34,16 +36,58 @@ public class typegame extends javax.swing.JFrame
 	public static ArrayList<String> easyStr = new ArrayList<String>();
 	public static ArrayList<String> normStr = new ArrayList<String>();
 	public static ArrayList<String> hardStr = new ArrayList<String>();
+	public static ArrayList<String> chosenStr = new ArrayList<String>();
+	
+	public static boolean easy = false;
+	public static boolean normal = false;
+	public static boolean hard = false;
+	
 	//private static void initComponents()
 	//{
 	private static JFrame base = new JFrame();
 	private static JPanel baseP = new JPanel();
 		
-	private static JLabel showScore = new JLabel("score");
+	private static JLabel showScore = new JLabel("Score: " + score);
 	private static JTextArea stringOut = new JTextArea("YEE",1,200);
 	private static JTextField inputArea = new JTextField("", 200);
 	private static JButton subButton = new JButton("ENTER");
     
+	public static int time=0;
+	private static JLabel showTime = new JLabel("Time: %d", time);
+	public static int relative_time=0;
+	private static JLabel showRelTime = new JLabel("Relative time: %d", relative_time);
+	public static Timer timer = new Timer();
+	public static TimerTask task = new TimerTask()
+	{
+		public void run()
+		{
+			time++;
+			relative_time++;
+			showTime.setText(String.format("Time: %d", time));
+			showRelTime.setText(String.format("Relative time: %d", relative_time));
+			if(relative_time>=60)
+			{
+				relative_time=0;
+				if(easy==true)
+				{
+					playGame(easyStr);
+				}
+				else if(normal == true)
+				{
+					playGame(normStr);
+				}
+				else if(hard == true)
+				{
+					playGame(hardStr);
+				}
+				else
+				{
+					//no difficulty selected, handle error case
+				}
+			}
+		}
+	};
+	
 	private static void initComponents() 
 	{
     base.getContentPane().setBackground(Color.MAGENTA);
@@ -67,6 +111,9 @@ public class typegame extends javax.swing.JFrame
     baseP.add(stringOut);
     baseP.add(inputArea);
     baseP.add(subButton);
+    baseP.add(showScore);
+    baseP.add(showTime);
+    baseP.add(showRelTime);
         
     base.add(baseP);
         
@@ -84,12 +131,13 @@ public class typegame extends javax.swing.JFrame
 			{
 				if(stringOut.getText().equals(inputArea.getText()))
 				{
-					System.out.println("\nyay\n");
+					score+=100-relative_time;
+					showScore.setText(String.format("Score: %d", score));
+					relative_time=0;
 					playGame(easyStr);
 				}
 				else
 				{
-					System.out.println("\nnop\n");
 					inputArea.setForeground(Color.RED);
 				}
 			}
@@ -106,18 +154,20 @@ public class typegame extends javax.swing.JFrame
 		int sent_index = random.nextInt(99);
 		
 		stringOut.setText(strs.get(sent_index).toString());
+		timer.scheduleAtFixedRate(task, 0, 1000);
 	}
 
 	private static void playGame(ArrayList strs)
 	{
+		Random random = new Random();
+		int sent_index = random.nextInt(99);
 		
+		stringOut.setText(strs.get(sent_index).toString());
 	}
 
 	public static void main(String args[]) throws IOException 
-	{
-
-		
-		boolean easy = true;
+	{	
+		easy = true;
 		if (easy == true) 
 		{
 			File f = new File("C:/Users/Maddie/cp104-master/cp213/KAMP/src/easyStr.txt");
