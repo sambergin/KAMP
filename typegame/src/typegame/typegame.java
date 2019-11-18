@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,9 +49,10 @@ public class typegame extends javax.swing.JFrame
 	private static JPanel baseP = new JPanel();
 		
 	private static JLabel showScore = new JLabel("Score: " + score);
-	private static JTextArea stringOut = new JTextArea("YEE",1,200);
+	private static JTextField stringOut = new JTextField("",200);
 	private static JTextField inputArea = new JTextField("", 200);
 	private static JButton subButton = new JButton("ENTER");
+	private static Font myFont = new Font("Party LET", Font.BOLD, 20);
     
 	public static int time=0;
 	private static JLabel showTime = new JLabel("Time: %d", time);
@@ -61,30 +63,56 @@ public class typegame extends javax.swing.JFrame
 	{
 		public void run()
 		{
-			time++;
-			relative_time++;
+			
+			
 			showTime.setText(String.format("Time: %d", time));
-			showRelTime.setText(String.format("Relative time: %d", relative_time));
-			if(relative_time>=60)
-			{
-				relative_time=0;
-				if(easy==true)
-				{
-					playGame(easyStr);
+			showRelTime.setText(String.format("Time Spent on This Phrase: %d", relative_time));
+			
+			if(time <= 60) {
+				if(relative_time>=60)
+					{
+						relative_time=0;
+						if(easy==true)
+						{
+							playGame(easyStr);
+						}
+						else if(normal == true)
+						{
+							playGame(normStr);
+						}
+						else if(hard == true)
+						{
+							playGame(hardStr);
+						}
+						else
+						{
+							//no difficulty selected, handle error case
+						}
+						
 				}
-				else if(normal == true)
-				{
-					playGame(normStr);
+				time++;
+				relative_time++;	
+				
+		
+			}
+			else {
+				if (score >= 2000) {
+					stringOut.setText(String.format("Game Over! You Scored: %d, Fantastic!", score));
 				}
-				else if(hard == true)
-				{
-					playGame(hardStr);
+				else if ((score >= 1500) && (score <= 1999)) {
+					stringOut.setText(String.format("Game Over! You Scored: %d, Great Job!", score));
 				}
-				else
-				{
-					//no difficulty selected, handle error case
+				else if ((score >= 1000) && (score <= 1499)) {
+					stringOut.setText(String.format("Game Over! You Scored: %d, Good Job!", score));
+				}
+				else if ((score >= 500) && (score <= 999)) {
+					stringOut.setText(String.format("Game Over! You Scored: %d, Nice!", score));
+				}
+				else if ((score >= 0) && (score <= 199)) {
+					stringOut.setText(String.format("Game Over! You Scored: %d, Keep Practicing!", score));
 				}
 			}
+			
 		}
 	};
 	
@@ -101,11 +129,20 @@ public class typegame extends javax.swing.JFrame
     Border borderInput = BorderFactory.createLineBorder(Color.BLUE, 5);
     inputArea.setBorder(borderInput);
         
-    Border borderOutput = BorderFactory.createLineBorder(Color.GREEN, 5);
+    Border borderOutput = BorderFactory.createLineBorder(Color.MAGENTA, 5);
     stringOut.setBorder(borderOutput);
         
     inputArea.setSize(200,20);
+    inputArea.setBackground(Color.ORANGE);
+    inputArea.setForeground(Color.BLUE);
+    inputArea.setFont(myFont);
+    inputArea.setHorizontalAlignment(JTextField.CENTER);
     stringOut.setSize(200,20);
+    stringOut.setBackground(Color.GREEN);
+    stringOut.setForeground(Color.MAGENTA);
+    stringOut.setFont(myFont);
+    stringOut.setHorizontalAlignment(JTextField.CENTER);
+   
         
     baseP.setLayout(new BoxLayout(baseP, BoxLayout.Y_AXIS));
     baseP.add(stringOut);
@@ -114,8 +151,10 @@ public class typegame extends javax.swing.JFrame
     baseP.add(showScore);
     baseP.add(showTime);
     baseP.add(showRelTime);
+    baseP.setBackground(Color.CYAN);
         
     base.add(baseP);
+    
         
         /*base.add(stringOut, BorderLayout.NORTH);
         base.add(inputArea, BorderLayout.CENTER);
@@ -131,14 +170,19 @@ public class typegame extends javax.swing.JFrame
 			{
 				if(stringOut.getText().equals(inputArea.getText()))
 				{
-					score+=100-relative_time;
+					score += 100 - relative_time;
 					showScore.setText(String.format("Score: %d", score));
 					relative_time=0;
+					inputArea.setText("");
 					playGame(easyStr);
 				}
 				else
 				{
-					inputArea.setForeground(Color.RED);
+					score -= 50;
+					showScore.setText(String.format("Score: %d", score));
+					relative_time=0;
+					inputArea.setText("");
+					playGame(easyStr);
 				}
 			}
 		}
@@ -159,10 +203,14 @@ public class typegame extends javax.swing.JFrame
 
 	private static void playGame(ArrayList strs)
 	{
-		Random random = new Random();
-		int sent_index = random.nextInt(99);
 		
-		stringOut.setText(strs.get(sent_index).toString());
+			
+				Random random = new Random();
+				int sent_index = random.nextInt(99);
+				
+				stringOut.setText(strs.get(sent_index).toString());
+			
+		
 	}
 
 	public static void main(String args[]) throws IOException 
@@ -170,7 +218,7 @@ public class typegame extends javax.swing.JFrame
 		easy = true;
 		if (easy == true) 
 		{
-			File f = new File("C:/Users/Maddie/cp104-master/cp213/KAMP/src/easyStr.txt");
+			File f = new File("C:\\Users\\batman\\eclipse-workspace\\typegame\\src\\easyStr.txt");
 			BufferedReader scane = new BufferedReader(new FileReader(f));
 			
 			String line = scane.readLine();
