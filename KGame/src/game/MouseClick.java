@@ -1,0 +1,69 @@
+package game;
+
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Random;
+
+import game.Game.DIFF;
+import game.Game.STATE;
+
+public class MouseClick extends MouseAdapter{
+
+	private Handler handler;
+	private Game game;
+	private Random r;
+	
+	public MouseClick (Handler handler, Game game) {
+		this.handler = handler;
+		this.game = game;
+
+		r = new Random();
+	}
+	
+	public Rectangle getBounds(int x, int y) {
+		if (game.diff == DIFF.easy) {
+			return (new Rectangle(x, y, 64, 64));
+		} else if (game.diff == DIFF.medium) {
+			return (new Rectangle(x, y, 32, 32));
+		} else {
+			return (new Rectangle(x, y, 16, 16));
+		}
+		
+	}
+	public void mousePressed(MouseEvent e) {
+		
+		if (game.gameState == STATE.MouseGame) {
+			Point loc = e.getPoint();
+			
+			int miss = HUD.score;
+			for (int i = 0; i < handler.object.size(); i++) {
+				GameObject temp = handler.object.get(i);
+				
+				if(getBounds(temp.getX(), temp.getY()).contains(loc)) {//If we clicked a target
+					GameObject a = handler.object.getFirst();
+					handler.removeObject(a);
+					if(temp.getId() == ID.easy) {//Score based on difficulty
+						HUD.score += 10;
+						handler.addObject(new Target(r.nextInt(game.WIDTH-128), r.nextInt(game.HEIGHT-128), ID.easy, handler));
+					}
+					if(temp.getId() == ID.medium) {
+						HUD.score += 20;
+						handler.addObject(new Target(r.nextInt(game.WIDTH-64), r.nextInt(game.HEIGHT-64), ID.medium, handler));
+					}
+					if(temp.getId() == ID.hard) {
+						HUD.score += 30;
+						handler.addObject(new Target(r.nextInt(game.WIDTH-32), r.nextInt(game.HEIGHT-32), ID.hard, handler));
+					}
+					Spawn.timer = 0;
+				}
+			}
+			if (miss == HUD.score) {
+				HUD.score -= 20;
+			}
+		}
+		
+	}
+	
+}
