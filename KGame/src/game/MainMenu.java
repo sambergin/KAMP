@@ -15,8 +15,10 @@ public class MainMenu extends MouseAdapter{
 	private Game game;
 	private Handler handler;
 	private Random r;
+	private LoadStrings temp;
 	
-	public MainMenu(Game game, Handler handler) {
+	public MainMenu(Game game, Handler handler, LoadStrings temp) {
+		this.temp = temp;
 		this.game = game;
 		this.handler = handler;
 		r = new Random();
@@ -42,19 +44,9 @@ public class MainMenu extends MouseAdapter{
 			
 			//TG Button
 			if (mouseOver(mx, my, game.WIDTH/2-100, 300, 200, 64)) {
+				game.strArr = temp.getList();
+				game.userOut.setText(game.strArr.get(r.nextInt(game.strArr.size())));
 				game.gameState = STATE.TypeGame;
-				/*
-				try {
-					LaunchTG a = new LaunchTG(game);
-				} catch (LineUnavailableException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				*/
-				
 			}
 			//Options Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {

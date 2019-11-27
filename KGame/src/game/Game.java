@@ -19,13 +19,14 @@ public class Game extends Canvas implements Runnable{
 	
 	private Random r;//To spawn in random locations
 	private Handler handler;//List of all gameObjects
-	private ArrayList<String> strArr;//List of loaded strings
 	private LoadStrings temp;
 	private HUD hud;
 	private Spawn spawner;
 	private MainMenu mainMenu;
 	private KeyInput ip;
+	public ArrayList<String> strArr;//List of loaded strings
 	public JTextField userIn;
+	public JTextField userOut;
 	
 	public enum STATE { //Set Game state from menu to either game
 		MouseGame,
@@ -52,11 +53,12 @@ public class Game extends Canvas implements Runnable{
 	
 	public Game() {
 		temp = new LoadStrings(this);
-		strArr = temp.getList();
+		
 		handler = new Handler();
-		mainMenu = new MainMenu(this, handler);
+		mainMenu = new MainMenu(this, handler, temp);
 		hud = new HUD();
 		userIn = new JTextField("", 200);
+		userOut = new JTextField("", 200);
 		ip = new KeyInput(this);
 		this.addMouseListener(new MouseClick(handler, this));
 		this.addMouseListener(mainMenu);
@@ -81,14 +83,8 @@ public class Game extends Canvas implements Runnable{
 			
 		}
 		if(gameState == STATE.TypeGame) { //Typegame diff string
-			if (diff == DIFF.easy) {
-				handler.addObject(new Target(r.nextInt(WIDTH-128), r.nextInt(HEIGHT-128), ID.easy, handler));
-			} else if (diff == DIFF.medium) {
-				handler.addObject(new Target(r.nextInt(WIDTH-64), r.nextInt(HEIGHT-64), ID.medium, handler));
-			} else {
-				handler.addObject(new Target(r.nextInt(WIDTH-32), r.nextInt(HEIGHT-32), ID.hard, handler));
-			}
-			
+			strArr = temp.getList();
+			System.out.println(strArr.get(0));
 		}
 		
 		
@@ -170,6 +166,7 @@ public class Game extends Canvas implements Runnable{
 		if(gameState == STATE.MouseGame) {
 			hud.render(g);
 		} else if(gameState == STATE.TypeGame) {
+			
 			ip.render(g);
 		} else {
 			mainMenu.render(g);

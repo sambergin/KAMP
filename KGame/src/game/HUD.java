@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import game.Game.STATE;
+
 public class HUD {
 
 	public static int score = 0;
