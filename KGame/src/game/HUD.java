@@ -8,15 +8,32 @@ import game.Game.STATE;
 
 public class HUD {
 
-	public static int score = 0;
-	private int timer = 60*100;
+	public int score;
+	private int timer;
+	private Game game;
+	private Handler handler;
 	
-	public HUD() {
+	public HUD(Game game, Handler handler) {
+		timer = 60 * 100;
+		this.game = game;
+		this.handler = handler;
+		score = 0;
+	}
+	
+	public void reset() {
+		if (!handler.object.isEmpty()) {
+			handler.removeObject(handler.object.getFirst());
+		}
+		timer = 60*100;
 		score = 0;
 	}
 	
 	public void tick() {
 		timer--;
+		if (timer == 0) {
+			handler.removeObject(handler.object.getFirst());
+			game.gameState = STATE.MouseEndMenu;
+		}
 	}
 	
 	public void render(Graphics g) {

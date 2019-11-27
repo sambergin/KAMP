@@ -43,7 +43,7 @@ public class MainMenu extends MouseAdapter{
 			}
 			
 			//TG Button
-			if (mouseOver(mx, my, game.WIDTH/2-100, 300, 200, 64)) {
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 300, 200, 64)) {
 				game.strArr = temp.getList();
 				game.userOut.setText(game.strArr.get(r.nextInt(game.strArr.size())));
 				game.gameState = STATE.TypeGame;
@@ -79,6 +79,7 @@ public class MainMenu extends MouseAdapter{
 			//mute
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {
 				//Mute music
+				
 			}
 			//Back Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
@@ -87,6 +88,32 @@ public class MainMenu extends MouseAdapter{
 		} else if (game.gameState == STATE.MouseHSMenu || game.gameState == STATE.TypeHSMenu ) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
 				game.gameState = STATE.OptionsMenu;
+			}
+		} else if (game.gameState == STATE.MPauseMenu) {
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) { //Continue
+				game.gameState = STATE.MouseGame;
+			}
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				game.gameState = STATE.MainMenu;
+				game.hud.reset();
+			}
+		} else if (game.gameState == STATE.TPauseMenu) {
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) { //Continue
+				game.gameState = STATE.TypeGame;
+			}
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				game.gameState = STATE.MainMenu;
+				game.ip.reset();
+			}
+		} else if (game.gameState == STATE.MouseEndMenu) {
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				game.gameState = STATE.MainMenu;
+				game.hud.reset();
+			}
+		} else if (game.gameState == STATE.TypeEndMenu) {
+			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				game.gameState = STATE.MainMenu;
+				game.ip.reset();
 			}
 		}
 
@@ -155,6 +182,34 @@ public class MainMenu extends MouseAdapter{
 			g.setColor(Color.red);
 			//Back Button
 			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.drawString("Return", Game.WIDTH/2-50, 540);
+		}
+		if(game.gameState == STATE.MPauseMenu || game.gameState == STATE.TPauseMenu) {
+			g.setColor(Color.red);
+			//Continue Button
+			g.drawRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.drawString("Continue", Game.WIDTH/2-50, 440);
+			//Main Menu Button
+			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.drawString("Main Menu (Quit)", Game.WIDTH/2-50, 540);
+		}
+		if(game.gameState == STATE.MouseEndMenu) {
+			
+			g.setColor(Color.red);
+			//Score
+			g.drawString("Score: "+game.hud.score, Game.WIDTH/2-70, 440);
+			//Main Menu Button
+			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.drawString("Main Menu", Game.WIDTH/2-70, 540);
+		}
+		if(game.gameState == STATE.TypeEndMenu) {
+			
+			g.setColor(Color.red);
+			//Score
+			g.drawString("Score: "+game.ip.score, Game.WIDTH/2-70, 440);
+			//Main Menu Button
+			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.drawString("Main Menu", Game.WIDTH/2-70, 540);
 		}
 		
 	}

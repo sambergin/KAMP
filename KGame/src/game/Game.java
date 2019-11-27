@@ -10,8 +10,11 @@ import java.util.Random;
 import javax.swing.JTextField;
 
 public class Game extends Canvas implements Runnable{
-
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4083421003724088077L;
 	
 	public static final int WIDTH = 1000, HEIGHT = WIDTH / 12*9; //16:9
 	private Thread thread;
@@ -20,10 +23,10 @@ public class Game extends Canvas implements Runnable{
 	private Random r;//To spawn in random locations
 	private Handler handler;//List of all gameObjects
 	private LoadStrings temp;
-	private HUD hud;
+	public HUD hud;
 	private Spawn spawner;
 	private MainMenu mainMenu;
-	private KeyInput ip;
+	public KeyInput ip;
 	public ArrayList<String> strArr;//List of loaded strings
 	public JTextField userIn;
 	public JTextField userOut;
@@ -35,9 +38,10 @@ public class Game extends Canvas implements Runnable{
 		OptionsMenu,
 		MouseHSMenu,
 		TypeHSMenu,
-		MouseEndMenu,
+		MouseEndMenu, 
 		TypeEndMenu,
-		PauseMenu;
+		MPauseMenu,
+		TPauseMenu;
 	};
 	
 	public enum DIFF { //Difficulty on game
@@ -53,10 +57,9 @@ public class Game extends Canvas implements Runnable{
 	
 	public Game() {
 		temp = new LoadStrings(this);
-		
 		handler = new Handler();
 		mainMenu = new MainMenu(this, handler, temp);
-		hud = new HUD();
+		hud = new HUD(this, handler);
 		userIn = new JTextField("", 200);
 		userOut = new JTextField("", 200);
 		ip = new KeyInput(this);
@@ -113,7 +116,6 @@ public class Game extends Canvas implements Runnable{
 		double ns = 1000000000 / amountOfTicks; 
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int frames = 0;
 		while(running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -125,11 +127,8 @@ public class Game extends Canvas implements Runnable{
 			if (running) { //Render if running
 				render();
 			}
-			frames++;
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: " + frames);
-				frames = 0;
 			}
 		}
 		stop();

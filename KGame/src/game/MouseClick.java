@@ -37,7 +37,7 @@ public class MouseClick extends MouseAdapter{
 		if (game.gameState == STATE.MouseGame) {
 			Point loc = e.getPoint();
 			
-			int miss = HUD.score;
+			int miss = game.hud.score;
 			for (int i = 0; i < handler.object.size(); i++) {
 				GameObject temp = handler.object.get(i);
 				
@@ -45,22 +45,22 @@ public class MouseClick extends MouseAdapter{
 					GameObject a = handler.object.getFirst();
 					handler.removeObject(a);
 					if(temp.getId() == ID.easy) {//Score based on difficulty
-						HUD.score += 10;
+						game.hud.score += 10;
 						handler.addObject(new Target(r.nextInt(game.WIDTH-128), r.nextInt(game.HEIGHT-128), ID.easy, handler));
 					}
 					if(temp.getId() == ID.medium) {
-						HUD.score += 20;
+						game.hud.score += 20;
 						handler.addObject(new Target(r.nextInt(game.WIDTH-64), r.nextInt(game.HEIGHT-64), ID.medium, handler));
 					}
 					if(temp.getId() == ID.hard) {
-						HUD.score += 30;
+						game.hud.score += 30;
 						handler.addObject(new Target(r.nextInt(game.WIDTH-32), r.nextInt(game.HEIGHT-32), ID.hard, handler));
 					}
 					Spawn.timer = 0;
 				}
 			}
-			if (miss == HUD.score) {
-				HUD.score -= 20;
+			if (miss == game.hud.score) {
+				game.hud.score -= 20;
 			}
 		}
 		

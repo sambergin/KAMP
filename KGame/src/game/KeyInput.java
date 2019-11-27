@@ -12,12 +12,12 @@ import game.Game.STATE;
 
 public class KeyInput extends KeyAdapter {
 	
-	public boolean p = false; //False when unpaused
+
 	private Game game;
-	private String s;
-	private int timer;
-	private int rel_time;
-	private int score;
+	public String s;
+	public int timer;
+	public int rel_time;
+	public int score;
 	private Random r;
 	
 	public KeyInput(Game game) {
@@ -34,17 +34,30 @@ public class KeyInput extends KeyAdapter {
 		return a;
 	}
 	
+	public void reset() {
+		s = "";
+		timer = 60*100;
+		rel_time = 0;
+		score = 0;
+		game.userIn.setText(s);
+		game.userOut.setText(selStr());
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
 		if(key == KeyEvent.VK_ESCAPE) {
-			if (p) {
-				p = false;
-				//unpause (change game state, dont reset timer)
-			} else {
-				p = true;
-				//pause (change game state, dont reset timer)
+
+			if (game.gameState == STATE.MouseGame) {
+				game.gameState = STATE.MPauseMenu;
+			} else if (game.gameState == STATE.TypeGame) {
+				game.gameState = STATE.TPauseMenu;
+			} else if (game.gameState == STATE.MPauseMenu) {
+				game.gameState = STATE.MouseGame;
+			} else if (game.gameState == STATE.TPauseMenu) {
+				game.gameState = STATE.TypeGame;
 			}
+
 		}  else if (key == KeyEvent.VK_ENTER) {
 			//Comp string, add points
 			if (game.userIn.getText().equals(game.userOut.getText())) {
@@ -69,8 +82,8 @@ public class KeyInput extends KeyAdapter {
 	
 	public void keyTyped(KeyEvent e) {
 		char t = e.getKeyChar();
-		//Only accepts alphabet, space, period and comma
-		if (t == 32 || t == 33 || t == 44 || t == 46 || (t>64 && t<90) || (t>96 && t<123)) {
+		//Only accepts characters that can be in the string (alphabet, comma, period, round and square brackets)
+		if (t == 32 || t == 33 || t == 40 || t == 41 || t == 44 || t == 46 || (t>64 && t<90) || t == 91 || t == 93 || (t>96 && t<123)) {
 			s = s + t;
 			game.userIn.setText(s);//update text string
 		}
@@ -79,13 +92,16 @@ public class KeyInput extends KeyAdapter {
 	public void tick() {
 		timer--;
 		rel_time++;
+		if (timer == 0) { //Game over
+			game.gameState = STATE.TypeEndMenu;
+		}
 	}
 	
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.drawString(game.userOut.getText(), 0, 50);
 		g.drawString(game.userIn.getText(), 0, 100);
-		g.drawString("Time: " + timer/100, 0, 200);
+		g.drawString("Time: " + timer /100, 0, 200);
 		g.drawString("RelTime: " + rel_time/100, 0, 300);
 		g.drawString("Score: " + score, 0, 400);
 		
