@@ -1,8 +1,11 @@
 package game;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+
 
 
 public class Window extends Canvas {
@@ -17,6 +20,7 @@ public class Window extends Canvas {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.add(game);
+		
 		frame.setVisible(true);
 		game.start();
 	}

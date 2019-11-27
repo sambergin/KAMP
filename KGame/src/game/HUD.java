@@ -7,14 +7,14 @@ import java.awt.Graphics;
 public class HUD {
 
 	public static int score = 0;
-	private int timer = 0;
+	private int timer = 60*100;
 	
 	public HUD() {
 		score = 0;
 	}
 	
 	public void tick() {
-		timer++;
+		timer--;
 	}
 	
 	public void render(Graphics g) {

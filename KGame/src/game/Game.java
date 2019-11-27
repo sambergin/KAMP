@@ -4,7 +4,10 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JTextField;
 
 public class Game extends Canvas implements Runnable{
 
@@ -16,9 +19,13 @@ public class Game extends Canvas implements Runnable{
 	
 	private Random r;//To spawn in random locations
 	private Handler handler;//List of all gameObjects
+	private ArrayList<String> strArr;//List of loaded strings
+	private LoadStrings temp;
 	private HUD hud;
 	private Spawn spawner;
 	private MainMenu mainMenu;
+	private KeyInput ip;
+	public JTextField userIn;
 	
 	public enum STATE { //Set Game state from menu to either game
 		MouseGame,
@@ -44,11 +51,16 @@ public class Game extends Canvas implements Runnable{
 	public DIFF diff = DIFF.easy;
 	
 	public Game() {
+		temp = new LoadStrings(this);
+		strArr = temp.getList();
 		handler = new Handler();
 		mainMenu = new MainMenu(this, handler);
 		hud = new HUD();
+		userIn = new JTextField("", 200);
+		ip = new KeyInput(this);
 		this.addMouseListener(new MouseClick(handler, this));
 		this.addMouseListener(mainMenu);
+		this.addKeyListener(ip);
 		
 		//AudioPlayer.init(); //Will work when audiofiles in res
 		//AudioPlayer.getMusic("music").loop(); //Loops music until exit
@@ -132,8 +144,9 @@ public class Game extends Canvas implements Runnable{
 		if (gameState == STATE.MouseGame) {
 			hud.tick();
 			spawner.tick();
+			
 		} else if(gameState == STATE.TypeGame) {
-			//tick typegame hud
+			ip.tick();
 		} else {
 			mainMenu.tick();
 		} 
@@ -154,10 +167,10 @@ public class Game extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH, HEIGHT);//g.drawimage here for backgrounds, use states to set background
 		
 		
-		if(gameState == STATE.MouseGame || gameState == STATE.TypeGame) {
+		if(gameState == STATE.MouseGame) {
 			hud.render(g);
 		} else if(gameState == STATE.TypeGame) {
-			//Render typegame
+			ip.render(g);
 		} else {
 			mainMenu.render(g);
 		} 
