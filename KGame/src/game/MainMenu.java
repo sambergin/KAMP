@@ -5,7 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import game.Game.DIFF;
 import game.Game.STATE;
@@ -16,6 +23,7 @@ public class MainMenu extends MouseAdapter{
 	private Handler handler;
 	private Random r;
 	private LoadStrings temp;
+	private BufferedImage image;
 	
 	public MainMenu(Game game, Handler handler, LoadStrings temp) {
 		this.temp = temp;
@@ -78,7 +86,18 @@ public class MainMenu extends MouseAdapter{
 			}
 			//mute
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {
-				//Mute music
+				try {
+					PlayMusic.playMusic("res/bensound-moose.wav", false);
+				} catch (UnsupportedAudioFileException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 			//Back Button
@@ -136,34 +155,48 @@ public class MainMenu extends MouseAdapter{
 		
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g) throws IOException {
 		
 		Font fnt = new Font("arial", 1, 30);
 		g.setFont(fnt);
 		if(game.gameState == STATE.MainMenu) {
 			//Mouse Game
-			g.setColor(Color.red);
-			g.drawRect(Game.WIDTH/2-100, 200, 200, 64);
+			
+			g.setColor(Color.BLUE);
+			
+			g.fillRect(Game.WIDTH/2-100, 200, 200, 64);
+			g.setColor(Color.YELLOW);
 			g.drawString("Mouse Game", Game.WIDTH/2-95, 240);
 			//Type Game
-			g.drawRect(Game.WIDTH/2-100, 300, 200, 64);
+			g.setColor(Color.CYAN);
+			g.fillRect(Game.WIDTH/2-100, 300, 200, 64);
+			g.setColor(Color.PINK);
 			g.drawString("Type Game", Game.WIDTH/2-85, 340);
 			//Options Button
-			g.drawRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.setColor(Color.YELLOW);
 			g.drawString("Options", Game.WIDTH/2-55, 440);
 			//Quit Button
-			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.RED);
+			g.fillRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.BLUE);
 			g.drawString("Quit", Game.WIDTH/2-35, 540);
 		}
 		if(game.gameState == STATE.OptionsMenu) {
 			
-			g.setColor(Color.red);
+			g.setColor(Color.GREEN);
 			//Difficulty
-			g.drawRect(150, 100, 200, 64); //easy
+			g.fillRect(150, 100, 200, 64); //easy
+			g.setColor(Color.WHITE);
 			g.drawString("Easy", 210, 140);
-			g.drawRect(400, 100, 200, 64); //medium
+			g.setColor(Color.ORANGE);
+			g.fillRect(400, 100, 200, 64); //medium
+			g.setColor(Color.WHITE);
 			g.drawString("Medium", 445, 140);
-			g.drawRect(650, 100, 200, 64); //hard
+			g.setColor(Color.RED);
+			g.fillRect(650, 100, 200, 64); //hard
+			g.setColor(Color.WHITE);
 			g.drawString("Hard", 710, 140);
 			//Mouse HS
 			g.drawRect(Game.WIDTH/2-100, 200, 200, 64);
@@ -185,31 +218,40 @@ public class MainMenu extends MouseAdapter{
 			g.drawString("Return", Game.WIDTH/2-50, 540);
 		}
 		if(game.gameState == STATE.MPauseMenu || game.gameState == STATE.TPauseMenu) {
-			g.setColor(Color.red);
+			g.setColor(Color.ORANGE);
+			g.drawString("Game Paused", Game.WIDTH/2-100, 200);
 			//Continue Button
-			g.drawRect(Game.WIDTH/2-100, 400, 200, 64);
-			g.drawString("Continue", Game.WIDTH/2-50, 440);
+			g.setColor(Color.BLUE);
+			g.fillRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.setColor(Color.YELLOW);
+			g.drawString("Continue", Game.WIDTH/2-70, 440);
 			//Main Menu Button
-			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
-			g.drawString("Main Menu (Quit)", Game.WIDTH/2-50, 540);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.ORANGE);
+			g.drawString("Main Menu", Game.WIDTH/2-80, 540);
 		}
 		if(game.gameState == STATE.MouseEndMenu) {
 			
-			g.setColor(Color.red);
+			g.setColor(Color.MAGENTA);
 			//Score
-			g.drawString("Score: "+game.hud.score, Game.WIDTH/2-70, 440);
+			g.drawString("You Scored: "+game.hud.score, Game.WIDTH/2-70, 300);
 			//Main Menu Button
-			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
-			g.drawString("Main Menu", Game.WIDTH/2-70, 540);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.ORANGE);
+			g.drawString("Main Menu", Game.WIDTH/2-80, 540);
 		}
 		if(game.gameState == STATE.TypeEndMenu) {
 			
-			g.setColor(Color.red);
+			g.setColor(Color.MAGENTA);
 			//Score
-			g.drawString("Score: "+game.ip.score, Game.WIDTH/2-70, 440);
+			g.drawString("You Scored: "+game.ip.score, Game.WIDTH/2-70, 300);
 			//Main Menu Button
-			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
-			g.drawString("Main Menu", Game.WIDTH/2-70, 540);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.ORANGE);
+			g.drawString("Main Menu", Game.WIDTH/2-80, 540);
 		}
 		
 	}

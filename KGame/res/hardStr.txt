@@ -98,12 +98,11 @@ Every stick has two ends
 Everyone has their price
 Everything comes to those who wait
 Genius is an infinite capacity for taking pains
-Give a dog a bad name and hang him[a]
-Give a man a fish and you feed him for a day. Teach a man to fish and you feed him for a lifetime
+Give a dog a bad name and hang him
 Give a man rope enough and he will hang himself
 Give credit where credit is due
 Give him an inch and he will take a mile
-Give the devil his/her due
+Give the devil his due
 God helps those who help themselves
 Good fences make good neighbours
 Good talk saves the food
@@ -114,7 +113,6 @@ If it were not for hope the heart would break.
 If it were a snake, it would have bit you.
 If the shoe fits, wear it
 If the mountain will not come to Mohammed, then Mohammed must go to the mountain
-If wealth is lost, nothing is lost. If health is lost, something is lost. If character is lost, everything is lost.
 If wishes were horses, beggars would ride
 If you cannot be good, be careful
 If you cannot beat them, join them
@@ -141,7 +139,6 @@ When it rains it pours.
 When life gives you lemons, make lemonade
 When the cat is away, the mice will play
 When the going gets tough, the tough get going
-When the oak is before the ash, then you will only get a splash; when the ash is before the oak, then you may expect a soak
 When three women gather, it becomes noisy.
 When you have seen one, you have seen them all
 What is learnt in the cradle lasts to the tombs.
@@ -164,7 +161,7 @@ You cannot make a silk purse from a sow's ear
 You cannot make an omelette without breaking eggs
 You cannot make bricks without straw
 You cannot run with the hare and hunt with the hounds
-(You cannot) teach an old dog new tricks
+You can't teach an old dog new tricks
 You cannot win them all
 You catch more flies with honey than with vinegar
 You pay your money and you take your choice

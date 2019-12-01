@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -98,12 +99,23 @@ public class KeyInput extends KeyAdapter {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.red);
-		g.drawString(game.userOut.getText(), 0, 50);
-		g.drawString(game.userIn.getText(), 0, 100);
-		g.drawString("Time: " + timer /100, 0, 200);
-		g.drawString("RelTime: " + rel_time/100, 0, 300);
-		g.drawString("Score: " + score, 0, 400);
+		Font font = new Font("arial",1,20);
+		Font titl = new Font("arial",1,40);
+		g.setFont(titl);
+		g.setColor(Color.CYAN);
+		g.drawString("Type this phrase... FAST!", Game.WIDTH/2-240, 50);
+		g.setFont(font);
+		g.setColor(Color.MAGENTA);
+		g.fillRect(Game.WIDTH/2-400, 100, 800, 64);
+		g.setColor(Color.YELLOW);
+		g.drawString(game.userOut.getText(), Game.WIDTH/2-390, 140);
+		g.setColor(Color.ORANGE);
+		g.fillRect(Game.WIDTH/2-400, 300, 800, 64);
+		g.setColor(Color.MAGENTA);
+		g.drawString(game.userIn.getText(),  Game.WIDTH/2-390, 340);
+		g.drawString("Time Left: " + timer /100, 0, 500);
+		g.drawString("Time Taken on This Phrase: " + rel_time/100, 0, 550);
+		g.drawString("Score: " + score, 0, 600);
 		
 		
 	}

@@ -2,11 +2,15 @@ package game;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JTextField;
 
 public class Game extends Canvas implements Runnable{
@@ -30,6 +34,7 @@ public class Game extends Canvas implements Runnable{
 	public ArrayList<String> strArr;//List of loaded strings
 	public JTextField userIn;
 	public JTextField userOut;
+	public Font font;
 	
 	public enum STATE { //Set Game state from menu to either game
 		MouseGame,
@@ -55,21 +60,24 @@ public class Game extends Canvas implements Runnable{
 	public STATE gameState = STATE.MainMenu;
 	public DIFF diff = DIFF.easy;
 	
-	public Game() {
+	public Game() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		font = new Font("SchoolHouse Printed A", Font.BOLD, 20);
 		temp = new LoadStrings(this);
 		handler = new Handler();
 		mainMenu = new MainMenu(this, handler, temp);
 		hud = new HUD(this, handler);
 		userIn = new JTextField("", 200);
+		userIn.setFont(font);
 		userOut = new JTextField("", 200);
+		userOut.setFont(font);
 		ip = new KeyInput(this);
 		this.addMouseListener(new MouseClick(handler, this));
 		this.addMouseListener(mainMenu);
 		this.addKeyListener(ip);
 		
 		//AudioPlayer.init(); //Will work when audiofiles in res
-		//AudioPlayer.getMusic("music").loop(); //Loops music until exit
-		
+		//AudioPlayer.getMusic("res/bensound-moose.ogg").loop(); //Loops music until exit
+		PlayMusic.playMusic("res/bensound-moose.wav", true);
 		new Window(WIDTH, HEIGHT, "KAMP", this);
 		
 		spawner = new Spawn(handler, hud); //Handles spawning square every 3 seconds without a click
@@ -125,7 +133,12 @@ public class Game extends Canvas implements Runnable{
 				delta--;
 			}
 			if (running) { //Render if running
-				render();
+				try {
+					render();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
@@ -150,7 +163,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	
-	private void render() { //60fps, renders game objects
+	private void render() throws IOException { //60fps, renders game objects
 		BufferStrategy bs = this.getBufferStrategy();
 		if(bs == null) {
 			this.createBufferStrategy(3);
@@ -180,6 +193,17 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	public static void main (String args[]) {
-		new Game();
+		try {
+			new Game();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

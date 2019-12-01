@@ -45,9 +45,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @SuppressWarnings("serial")
-public class typegame extends javax.swing.JFrame
+public class TypeGame extends javax.swing.JFrame
 {
-	
+	public TypeGame() {
+	}
 	
 	public static int score=0;;
 	public static ArrayList<String> strArr = new ArrayList<String>();
@@ -68,12 +69,9 @@ public class typegame extends javax.swing.JFrame
 	
 	private static JTextField stringOut = new JTextField("",200);
 	private static JTextField inputArea = new JTextField("", 200);
-
+	private static JButton subButton = new JButton("ENTER");
 	private static Font myFont = new Font("SchoolHouse Printed A", Font.BOLD, 20);
     
-	public typegame() {
-	}
-	
 	public static int time=0;
 	private static JLabel showTime = new JLabel("Time: %d", time);
 	public static int relative_time=0;
@@ -295,69 +293,4 @@ public class typegame extends javax.swing.JFrame
 		} 
 	
 	}
-
-	public static void main(String args[]) throws IOException, LineUnavailableException 
-	{	
-		hard = true;
-		if (easy == true) 
-		{
-			File f = new File("res/easyStr.txt");
-			BufferedReader scane = new BufferedReader(new FileReader(f));
-			
-			String line = scane.readLine();
-			
-			while(line != null ) 
-			{
-				line = scane.readLine();
-				strArr.add(line);
-			}
-			
-			scane.close();
-			
-			
-			
-		}
-		else if (normal == true) {
-			File f = new File("res/normStr.txt");
-			BufferedReader scane = new BufferedReader(new FileReader(f));
-			
-			String line = scane.readLine();
-			
-			while(line != null ) 
-			{
-				line = scane.readLine();
-				strArr.add(line);
-			}
-			
-			scane.close();
-			
-			
-			
-		}
-		
-		else if (hard == true) {
-			File f = new File("res/hardStr.txt");
-			BufferedReader scane = new BufferedReader(new FileReader(f));
-			
-			String line = scane.readLine();
-			
-			while(line != null ) 
-			{
-				line = scane.readLine();
-				strArr.add(line);
-			}
-			
-			scane.close();
-			
-			
-			
-			
-		}
-		
-		
-		registerListeners();
-		typeGame(strArr);
-	
-	}
-
 }
