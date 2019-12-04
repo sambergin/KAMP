@@ -148,12 +148,14 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private void tick() { //60 ticks per sec, updates game objects
-		handler.tick();
+		
 		if (gameState == STATE.MouseGame) {
+			handler.tick();
 			hud.tick();
 			spawner.tick();
 			
 		} else if(gameState == STATE.TypeGame) {
+			handler.tick();
 			ip.tick();
 		} else {
 			mainMenu.tick();
@@ -177,15 +179,14 @@ public class Game extends Canvas implements Runnable{
 		
 		if(gameState == STATE.MouseGame) {
 			hud.render(g);
+			handler.render(g);
 		} else if(gameState == STATE.TypeGame) {
 			
 			ip.render(g);
+			handler.render(g);
 		} else {
 			mainMenu.render(g);
 		} 
-		
-		
-		handler.render(g);
 		
 		
 		g.dispose();
