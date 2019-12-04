@@ -17,6 +17,7 @@ public class LoadStrings {
 	}
 	
 	public void setDiff() throws IOException {
+		strArr.clear();
 		if (game.diff == DIFF.easy) 
 		{
 			File f = new File("res/easyStr.txt");

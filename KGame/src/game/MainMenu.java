@@ -39,6 +39,7 @@ public class MainMenu extends MouseAdapter{
 		if(game.gameState == STATE.MainMenu) {
 			//MG Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 200, 200, 64)) { //Launch Mousegame
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MouseGame;
 				if (game.diff == DIFF.easy) {
 					handler.addObject(new Target(r.nextInt(Game.WIDTH-128), r.nextInt(Game.HEIGHT-128), ID.easy, handler));
@@ -52,16 +53,19 @@ public class MainMenu extends MouseAdapter{
 			
 			//TG Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 300, 200, 64)) {
+				AudioPlayer.getSound("menu_select").play();
 				game.strArr = temp.getList();
 				game.userOut.setText(game.strArr.get(r.nextInt(game.strArr.size())));
 				game.gameState = STATE.TypeGame;
 			}
 			//Options Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.OptionsMenu;
 			}
 			//Quit Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
+				AudioPlayer.getSound("menu_select").play();
 				System.exit(1);
 			}
 		}
@@ -69,20 +73,25 @@ public class MainMenu extends MouseAdapter{
 			//Difficulty
 			if (mouseOver(mx, my, 150, 100, 200, 64)) {
 				game.diff = DIFF.easy;
+				AudioPlayer.getSound("menu_select").play();
 			}
 			if (mouseOver(mx, my, 400, 100, 200, 64)) {
 				game.diff = DIFF.medium;
+				AudioPlayer.getSound("menu_select").play();
 			}
 			if (mouseOver(mx, my, 650, 100, 200, 64)) {
 				game.diff = DIFF.hard;
+				AudioPlayer.getSound("menu_select").play();
 			}
 			//mouse hs
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 200, 200, 64)) {
 				game.gameState = STATE.MouseHSMenu;
+				AudioPlayer.getSound("menu_select").play();
 			}
 			//keyboard hs
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 300, 200, 64)) {
 				game.gameState = STATE.TypeHSMenu;
+				AudioPlayer.getSound("menu_select").play();
 			}
 			//mute
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {
@@ -103,34 +112,42 @@ public class MainMenu extends MouseAdapter{
 			//Back Button
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
 				game.gameState = STATE.MainMenu;
+				AudioPlayer.getSound("menu_select").play();
 			}
 		} else if (game.gameState == STATE.MouseHSMenu || game.gameState == STATE.TypeHSMenu ) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
 				game.gameState = STATE.OptionsMenu;
+				AudioPlayer.getSound("menu_select").play();
 			}
 		} else if (game.gameState == STATE.MPauseMenu) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) { //Continue
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MouseGame;
 			}
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MainMenu;
 				game.hud.reset();
 			}
 		} else if (game.gameState == STATE.TPauseMenu) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) { //Continue
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.TypeGame;
 			}
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MainMenu;
 				game.ip.reset();
 			}
 		} else if (game.gameState == STATE.MouseEndMenu) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MainMenu;
 				game.hud.reset();
 			}
 		} else if (game.gameState == STATE.TypeEndMenu) {
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) { //Return to main / quit
+				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MainMenu;
 				game.ip.reset();
 			}

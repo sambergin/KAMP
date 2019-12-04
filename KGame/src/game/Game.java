@@ -75,9 +75,9 @@ public class Game extends Canvas implements Runnable{
 		this.addMouseListener(mainMenu);
 		this.addKeyListener(ip);
 		
-		//AudioPlayer.init(); //Will work when audiofiles in res
-		//AudioPlayer.getMusic("res/bensound-moose.ogg").loop(); //Loops music until exit
-		PlayMusic.playMusic("res/bensound-moose.wav", true);
+		AudioPlayer.init(); //Will work when audiofiles in res
+		AudioPlayer.getMusic("music").loop(); //Loops music until exit
+
 		new Window(WIDTH, HEIGHT, "KAMP", this);
 		
 		spawner = new Spawn(handler, hud); //Handles spawning square every 3 seconds without a click

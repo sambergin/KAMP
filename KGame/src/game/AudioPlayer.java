@@ -14,8 +14,10 @@ public class AudioPlayer {
 	public static void init() {
 		
 		try {
-			soundMap.put("menu_sound", new Sound("res/click_sound.ogg"));
-			musicMap.put("music", new Music("res/background_music.ogg"));
+			soundMap.put("target_hit", new Sound("res/Target-Hit.ogg"));
+			soundMap.put("target_miss", new Sound("res/miss_click.ogg"));
+			soundMap.put("menu_select", new Sound("res/button-pressed.ogg"));
+			musicMap.put("music", new Music("res/bensound-moose.ogg"));
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

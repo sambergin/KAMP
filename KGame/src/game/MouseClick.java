@@ -42,6 +42,7 @@ public class MouseClick extends MouseAdapter{
 				GameObject temp = handler.object.get(i);
 				
 				if(getBounds(temp.getX(), temp.getY()).contains(loc)) {//If we clicked a target
+					AudioPlayer.getSound("target_hit").play();
 					GameObject a = handler.object.getFirst();
 					handler.removeObject(a);
 					if(temp.getId() == ID.easy) {//Score based on difficulty
@@ -60,6 +61,7 @@ public class MouseClick extends MouseAdapter{
 				}
 			}
 			if (miss == game.hud.score) {
+				AudioPlayer.getSound("target_miss").play();
 				game.hud.score -= 20;
 			}
 		}
