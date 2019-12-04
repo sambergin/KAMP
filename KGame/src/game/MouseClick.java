@@ -47,15 +47,15 @@ public class MouseClick extends MouseAdapter{
 					handler.removeObject(a);
 					if(temp.getId() == ID.easy) {//Score based on difficulty
 						game.hud.score += 10;
-						handler.addObject(new Target(r.nextInt(game.WIDTH-128), r.nextInt(game.HEIGHT-128), ID.easy, handler));
+						handler.addObject(new Target(r.nextInt(Game.WIDTH-128), r.nextInt(Game.HEIGHT-128), ID.easy));
 					}
 					if(temp.getId() == ID.medium) {
 						game.hud.score += 20;
-						handler.addObject(new Target(r.nextInt(game.WIDTH-64), r.nextInt(game.HEIGHT-64), ID.medium, handler));
+						handler.addObject(new Target(r.nextInt(Game.WIDTH-64), r.nextInt(Game.HEIGHT-64), ID.medium));
 					}
 					if(temp.getId() == ID.hard) {
 						game.hud.score += 30;
-						handler.addObject(new Target(r.nextInt(game.WIDTH-32), r.nextInt(game.HEIGHT-32), ID.hard, handler));
+						handler.addObject(new Target(r.nextInt(Game.WIDTH-32), r.nextInt(Game.HEIGHT-32), ID.hard));
 					}
 					Spawn.timer = 0;
 				}

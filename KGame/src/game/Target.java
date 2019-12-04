@@ -3,15 +3,18 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class Target extends GameObject {
 
-	private Handler handler;
+	private Random r;
+	int a;
 	
-	public Target(int x, int y, ID id, Handler handler) {
+	public Target(int x, int y, ID id) {
 		super(x, y, id);
-		this.handler = handler;
-		
+
+		r = new Random();
+		a = r.nextInt(3);
 	}
 	
 	public Rectangle getBounds() {
@@ -36,7 +39,16 @@ public class Target extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.white);
+		if (a == 0) {
+			g.setColor(Color.red);
+		} else if (a == 1) {
+			g.setColor(Color.orange);
+		} else if (a == 2) {
+			g.setColor(Color.green);
+		} else {
+			g.setColor(Color.blue);
+		}
+		
 		
 		//easy
 		if (this.id == ID.easy) {

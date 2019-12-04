@@ -80,16 +80,16 @@ public class Game extends Canvas implements Runnable{
 
 		new Window(WIDTH, HEIGHT, "KAMP", this);
 		
-		spawner = new Spawn(handler, hud); //Handles spawning square every 3 seconds without a click
+		spawner = new Spawn(handler); //Handles spawning square every 3 seconds without a click
 		r = new Random(); 
 		
 		if(gameState == STATE.MouseGame) {//Spawn different unit based on selected difficulty
 			if (diff == DIFF.easy) {
-				handler.addObject(new Target(r.nextInt(WIDTH-128), r.nextInt(HEIGHT-128), ID.easy, handler));
+				handler.addObject(new Target(r.nextInt(WIDTH-128), r.nextInt(HEIGHT-128), ID.easy));
 			} else if (diff == DIFF.medium) {
-				handler.addObject(new Target(r.nextInt(WIDTH-64), r.nextInt(HEIGHT-64), ID.medium, handler));
+				handler.addObject(new Target(r.nextInt(WIDTH-64), r.nextInt(HEIGHT-64), ID.medium));
 			} else {
-				handler.addObject(new Target(r.nextInt(WIDTH-32), r.nextInt(HEIGHT-32), ID.hard, handler));
+				handler.addObject(new Target(r.nextInt(WIDTH-32), r.nextInt(HEIGHT-32), ID.hard));
 			}
 			
 		}
@@ -195,7 +195,8 @@ public class Game extends Canvas implements Runnable{
 	
 	public static void main (String args[]) {
 		try {
-			new Game();
+			Game a = new Game();
+			a.setVisible(true);
 		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

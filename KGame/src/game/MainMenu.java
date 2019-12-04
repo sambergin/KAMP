@@ -3,33 +3,32 @@ package game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 
 import game.Game.DIFF;
 import game.Game.STATE;
 
-public class MainMenu extends MouseAdapter{
+public class MainMenu extends MouseAdapter {
 	
 	private Game game;
 	private Handler handler;
 	private Random r;
 	private LoadStrings temp;
-	private BufferedImage image;
+	private Image im;
+	private int t;
 	
 	public MainMenu(Game game, Handler handler, LoadStrings temp) {
 		this.temp = temp;
 		this.game = game;
 		this.handler = handler;
 		r = new Random();
+		t = 0;
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -42,11 +41,11 @@ public class MainMenu extends MouseAdapter{
 				AudioPlayer.getSound("menu_select").play();
 				game.gameState = STATE.MouseGame;
 				if (game.diff == DIFF.easy) {
-					handler.addObject(new Target(r.nextInt(Game.WIDTH-128), r.nextInt(Game.HEIGHT-128), ID.easy, handler));
+					handler.addObject(new Target(r.nextInt(Game.WIDTH-128), r.nextInt(Game.HEIGHT-128), ID.easy));
 				} else if (game.diff == DIFF.medium) {
-					handler.addObject(new Target(r.nextInt(Game.WIDTH-64), r.nextInt(Game.HEIGHT-64), ID.medium, handler));
+					handler.addObject(new Target(r.nextInt(Game.WIDTH-64), r.nextInt(Game.HEIGHT-64), ID.medium));
 				} else {
-					handler.addObject(new Target(r.nextInt(Game.WIDTH-32), r.nextInt(Game.HEIGHT-32), ID.hard, handler));
+					handler.addObject(new Target(r.nextInt(Game.WIDTH-32), r.nextInt(Game.HEIGHT-32), ID.hard));
 				}
 				
 			}
@@ -95,17 +94,12 @@ public class MainMenu extends MouseAdapter{
 			}
 			//mute
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 400, 200, 64)) {
-				try {
-					PlayMusic.playMusic("res/bensound-moose.wav", false);
-				} catch (UnsupportedAudioFileException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (LineUnavailableException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (t == 0) {
+					AudioPlayer.getMusic("music").pause();
+					t = 1;
+				} else {
+					AudioPlayer.getMusic("music").resume();
+					t = 0;
 				}
 				
 			}
@@ -114,7 +108,7 @@ public class MainMenu extends MouseAdapter{
 				game.gameState = STATE.MainMenu;
 				AudioPlayer.getSound("menu_select").play();
 			}
-		} else if (game.gameState == STATE.MouseHSMenu || game.gameState == STATE.TypeHSMenu ) {
+		} else if (game.gameState == STATE.MouseHSMenu || game.gameState == STATE.TypeHSMenu ) { //Empty
 			if (mouseOver(mx, my, Game.WIDTH/2-100, 500, 200, 64)) {
 				game.gameState = STATE.OptionsMenu;
 				AudioPlayer.getSound("menu_select").play();
@@ -178,7 +172,9 @@ public class MainMenu extends MouseAdapter{
 		g.setFont(fnt);
 		if(game.gameState == STATE.MainMenu) {
 			//Mouse Game
-			
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
 			g.setColor(Color.BLUE);
 			
 			g.fillRect(Game.WIDTH/2-100, 200, 200, 64);
@@ -201,7 +197,9 @@ public class MainMenu extends MouseAdapter{
 			g.drawString("Quit", Game.WIDTH/2-35, 540);
 		}
 		if(game.gameState == STATE.OptionsMenu) {
-			
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
 			g.setColor(Color.GREEN);
 			//Difficulty
 			g.fillRect(150, 100, 200, 64); //easy
@@ -216,27 +214,41 @@ public class MainMenu extends MouseAdapter{
 			g.setColor(Color.WHITE);
 			g.drawString("Hard", 710, 140);
 			//Mouse HS
-			g.drawRect(Game.WIDTH/2-100, 200, 200, 64);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 200, 200, 64);
+			g.setColor(Color.WHITE);
 			g.drawString("Mouse HS", Game.WIDTH/2-75, 240);
 			//Keyboard HS
-			g.drawRect(Game.WIDTH/2-100, 300, 200, 64);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 300, 200, 64);
+			g.setColor(Color.WHITE);
 			g.drawString("Typing HS", Game.WIDTH/2-75, 340);
 			//Vol Mute
-			g.drawRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 400, 200, 64);
+			g.setColor(Color.WHITE);
 			g.drawString("Mute", Game.WIDTH/2-40, 440);
 			//Back Button
-			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(Game.WIDTH/2-100, 500, 200, 64);
+			g.setColor(Color.WHITE);
 			g.drawString("Return", Game.WIDTH/2-50, 540);
 		}
 		if(game.gameState == STATE.MouseHSMenu || game.gameState == STATE.TypeHSMenu) {
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
 			g.setColor(Color.red);
 			//Back Button
 			g.drawRect(Game.WIDTH/2-100, 500, 200, 64);
 			g.drawString("Return", Game.WIDTH/2-50, 540);
 		}
 		if(game.gameState == STATE.MPauseMenu || game.gameState == STATE.TPauseMenu) {
-			g.setColor(Color.ORANGE);
-			g.drawString("Game Paused", Game.WIDTH/2-100, 200);
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
+			g.setColor(Color.MAGENTA);
+			g.drawString("Game Paused", Game.WIDTH/2-100, 300);
 			//Continue Button
 			g.setColor(Color.BLUE);
 			g.fillRect(Game.WIDTH/2-100, 400, 200, 64);
@@ -249,7 +261,9 @@ public class MainMenu extends MouseAdapter{
 			g.drawString("Main Menu", Game.WIDTH/2-80, 540);
 		}
 		if(game.gameState == STATE.MouseEndMenu) {
-			
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
 			g.setColor(Color.MAGENTA);
 			//Score
 			g.drawString("You Scored: "+game.hud.score, Game.WIDTH/2-70, 300);
@@ -260,7 +274,9 @@ public class MainMenu extends MouseAdapter{
 			g.drawString("Main Menu", Game.WIDTH/2-80, 540);
 		}
 		if(game.gameState == STATE.TypeEndMenu) {
-			
+			ImageIcon i = new ImageIcon("res/KAMP1.png");
+			im = i.getImage();
+			g.drawImage(im, 0, 0, null);
 			g.setColor(Color.MAGENTA);
 			//Score
 			g.drawString("You Scored: "+game.ip.score, Game.WIDTH/2-70, 300);

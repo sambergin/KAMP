@@ -3,9 +3,12 @@ package game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 
 import game.Game.STATE;
 
@@ -20,7 +23,7 @@ public class KeyInput extends KeyAdapter {
 	public int rel_time;
 	public int score;
 	private Random r;
-	
+	private Image im;
 	public KeyInput(Game game) {
 		this.game = game;
 		s = "";
@@ -99,6 +102,9 @@ public class KeyInput extends KeyAdapter {
 	}
 	
 	public void render(Graphics g) {
+		ImageIcon i = new ImageIcon("res/KAMP4.jpg");
+		im = i.getImage();
+		g.drawImage(im, 0, 0, null);
 		Font font = new Font("arial",1,20);
 		Font titl = new Font("arial",1,40);
 		g.setFont(titl);

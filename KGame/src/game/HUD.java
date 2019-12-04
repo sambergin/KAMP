@@ -3,6 +3,9 @@ package game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 import game.Game.STATE;
 
@@ -12,6 +15,7 @@ public class HUD {
 	private int timer;
 	private Game game;
 	private Handler handler;
+	private Image im;
 	
 	public HUD(Game game, Handler handler) {
 		timer = 60 * 100;
@@ -37,6 +41,9 @@ public class HUD {
 	}
 	
 	public void render(Graphics g) {
+		ImageIcon i = new ImageIcon("res/KAMPcg.png");
+		im = i.getImage();
+		g.drawImage(im, 0, 0, null);
 		g.setColor(Color.red);
 		g.setFont(new Font("TimeNewRoman", Font.PLAIN, 32));
 		g.drawString("Score: "+ score, 15, 32);
